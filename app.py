@@ -14,9 +14,7 @@ import os
 
 from datetime import datetime
 
-# =====================================
 # APP CONFIGURATION
-# =====================================
 
 app = Flask(__name__)
 
@@ -28,18 +26,14 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# =====================================
 # LOAD RANDOM FOREST MODEL
-# =====================================
 
 model = joblib.load("models/model.pkl")
 
 with open("models/accuracy.txt", "r") as f:
     model_accuracy = f.read().strip()
 
-# =====================================
 # LOAD DATASET
-# =====================================
 
 df = pd.read_csv("Dataset/login_data.csv")
 
@@ -50,9 +44,7 @@ df["Hour"] = (
     .astype(int)
 )
 
-# =====================================
 # SHARED DASHBOARD DATA
-# =====================================
 
 def get_dashboard_data():
 
@@ -184,9 +176,7 @@ def get_dashboard_data():
 
     }
 
-# =====================================
 # LOGIN
-# =====================================
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -244,9 +234,8 @@ def login():
         "login.html"
 
     )
-# =====================================
+
 # DASHBOARD
-# =====================================
 
 @app.route("/")
 @app.route("/dashboard", methods=["GET", "POST"])
@@ -367,9 +356,7 @@ def dashboard():
     )
 
 
-# =====================================
 # ANALYTICS
-# =====================================
 
 @app.route("/analytics")
 def analytics():
@@ -388,9 +375,7 @@ def analytics():
     )
 
 
-# =====================================
 # LOGIN HISTORY
-# =====================================
 
 @app.route("/history")
 def history():
@@ -471,9 +456,7 @@ def history():
     )
 
 
-# =====================================
 # UPLOAD LOGS
-# =====================================
 
 @app.route("/upload", methods=["GET", "POST"])
 def upload():
@@ -623,9 +606,7 @@ def reports():
     )
 
 
-# =====================================
 # SETTINGS
-# =====================================
 
 @app.route("/settings")
 def settings():
@@ -646,9 +627,7 @@ def settings():
     )
 
 
-# =====================================
 # LOGOUT
-# =====================================
 
 @app.route("/logout")
 def logout():
@@ -660,9 +639,7 @@ def logout():
     )
 
 
-# =====================================
 # ERROR PAGE
-# =====================================
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -676,9 +653,7 @@ def page_not_found(error):
     )
 
 
-# =====================================
 # RUN APPLICATION
-# =====================================
 
 if __name__ == "__main__":
 
