@@ -1,0 +1,304 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h2 class="mb-4 text-info">
+        <i class="bi bi-bar-chart-fill"></i>
+        Security Analytics
+    </h2>
+
+    <!-- Analytics Cards -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-3">
+
+            <div class="card shadow analytics-card">
+
+                <div class="card-body">
+
+                    <h6>Total Logins</h6>
+
+                    <h2>{{ total_logins }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow analytics-card">
+
+                <div class="card-body">
+
+                    <h6>Suspicious Logins</h6>
+
+                    <h2>{{ suspicious_logins }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow analytics-card">
+
+                <div class="card-body">
+
+                    <h6>Failed Logins</h6>
+
+                    <h2>{{ failed_logins }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow analytics-card">
+
+                <div class="card-body">
+
+                    <h6>Model Accuracy</h6>
+
+                    <h2>{{ model_accuracy }}%</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Charts -->
+
+    <div class="row g-4">
+
+        <div class="col-lg-6">
+
+            <div class="card shadow">
+
+                <div class="card-header">
+
+                    Login Activity by Hour
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="hourChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="card shadow">
+
+                <div class="card-header">
+
+                    Threat Distribution
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="statusChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <div class="row">
+
+        <div class="col-lg-12">
+
+            <div class="card shadow">
+
+                <div class="card-header">
+
+                    Country Distribution
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="countryChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <div class="row">
+
+        <div class="col-lg-12">
+
+            <div class="card shadow">
+
+                <div class="card-header">
+
+                    Geolocation Tracking
+
+                </div>
+
+                <div class="card-body p-0">
+
+                    <iframe
+                        src="/static/login_map.html"
+                        style="width:100%;height:500px;border:none;">
+
+                    </iframe>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <div class="row">
+
+        <div class="col-lg-12">
+
+            <div class="card shadow">
+
+                <div class="card-header">
+
+                    Random Forest Feature Importance
+
+                </div>
+
+                <div class="card-body text-center">
+
+                    <img
+                        src="{{ url_for('static', filename='feature_importance.png') }}"
+                        class="img-fluid">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+const hourLabels = {{ hour_labels|tojson }};
+const hourValues = {{ hour_values|tojson }};
+
+const countryLabels = {{ country_labels|tojson }};
+const countryValues = {{ country_values|tojson }};
+
+new Chart(document.getElementById("hourChart"),{
+
+    type:"bar",
+
+    data:{
+
+        labels:hourLabels,
+
+        datasets:[{
+
+            label:"Hourly Logins",
+
+            data:hourValues,
+
+            backgroundColor:"#3b82f6"
+
+        }]
+
+    }
+
+});
+
+new Chart(document.getElementById("statusChart"),{
+
+    type:"doughnut",
+
+    data:{
+
+        labels:["Normal","Suspicious"],
+
+        datasets:[{
+
+            data:[
+
+                {{ normal_count }},
+
+                {{ suspicious_count }}
+
+            ],
+
+            backgroundColor:[
+
+                "#22c55e",
+
+                "#ef4444"
+
+            ]
+
+        }]
+
+    }
+
+});
+
+new Chart(document.getElementById("countryChart"),{
+
+    type:"bar",
+
+    data:{
+
+        labels:countryLabels,
+
+        datasets:[{
+
+            label:"Country Logins",
+
+            data:countryValues,
+
+            backgroundColor:"#0ea5e9"
+
+        }]
+
+    }
+
+});
+
+</script>
+
+{% endblock %}

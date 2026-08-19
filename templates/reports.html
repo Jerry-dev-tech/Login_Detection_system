@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h2 class="text-info mb-4">
+
+        <i class="bi bi-file-earmark-bar-graph-fill"></i>
+
+        Security Reports
+
+    </h2>
+
+    <div class="row">
+
+        <!-- Report Summary -->
+
+        <div class="col-lg-8">
+
+            <div class="card shadow">
+
+                <div class="card-header">
+
+                    Security Report Summary
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <th>Total Logins</th>
+                            <td>{{ total_logins }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Suspicious Logins</th>
+                            <td>{{ suspicious_logins }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Failed Logins</th>
+                            <td>{{ failed_logins }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Success Rate</th>
+                            <td>{{ success_rate }}%</td>
+                        </tr>
+
+                        <tr>
+                            <th>Model Accuracy</th>
+                            <td>{{ model_accuracy }}%</td>
+                        </tr>
+
+                        <tr>
+                            <th>Machine Learning Model</th>
+                            <td>Random Forest Classifier</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Download Buttons -->
+
+        <div class="col-lg-4">
+
+            <div class="card shadow">
+
+                <div class="card-header">
+
+                    Export Reports
+
+                </div>
+
+                <div class="card-body">
+
+                    <a href="/download/csv"
+                       class="btn btn-success w-100 mb-3">
+
+                        <i class="bi bi-file-earmark-spreadsheet-fill"></i>
+
+                        Download CSV
+
+                    </a>
+
+                    <a href="/download/excel"
+                       class="btn btn-primary w-100 mb-3">
+
+                        <i class="bi bi-file-earmark-excel-fill"></i>
+
+                        Download Excel
+
+                    </a>
+
+                    <a href="/download/pdf"
+                       class="btn btn-danger w-100">
+
+                        <i class="bi bi-file-earmark-pdf-fill"></i>
+
+                        Download PDF
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <div class="card shadow">
+
+        <div class="card-header">
+
+            Recent Security Events
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-dark table-hover">
+
+                <thead>
+
+                <tr>
+
+                    <th>User</th>
+
+                    <th>Country</th>
+
+                    <th>Device</th>
+
+                    <th>Status</th>
+
+                    <th>Threat</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for row in recent_logins %}
+
+                <tr>
+
+                    <td>{{ row.Username }}</td>
+
+                    <td>{{ row.Country }}</td>
+
+                    <td>{{ row.Device }}</td>
+
+                    <td>
+
+                        {% if row.Login_Success==1 %}
+
+                        <span class="badge bg-success">
+
+                            Success
+
+                        </span>
+
+                        {% else %}
+
+                        <span class="badge bg-danger">
+
+                            Failed
+
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        {% if row.Suspicious==1 %}
+
+                        <span class="badge bg-danger">
+
+                            High Risk
+
+                        </span>
+
+                        {% else %}
+
+                        <span class="badge bg-success">
+
+                            Normal
+
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

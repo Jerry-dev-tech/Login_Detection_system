@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h2 class="mb-4 text-info">
+        <i class="bi bi-clock-history"></i>
+        Login History
+    </h2>
+
+    <!-- Search & Filter -->
+
+    <div class="card shadow mb-4">
+
+        <div class="card-body">
+
+            <form method="GET">
+
+                <div class="row">
+
+                    <div class="col-md-4">
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="search"
+                            placeholder="Search Username..."
+                            value="{{ request.args.get('search','') }}">
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <select
+                            class="form-select"
+                            name="country">
+
+                            <option value="">All Countries</option>
+
+                            <option value="India">India</option>
+                            <option value="USA">USA</option>
+                            <option value="UK">UK</option>
+                            <option value="Russia">Russia</option>
+                            <option value="China">China</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <select
+                            class="form-select"
+                            name="status">
+
+                            <option value="">All Status</option>
+
+                            <option value="1">Success</option>
+
+                            <option value="0">Failed</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <button
+                            class="btn btn-primary w-100">
+
+                            Search
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- Login History Table -->
+
+    <div class="card shadow">
+
+        <div class="card-header">
+
+            Login History
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-dark table-hover table-striped">
+
+                <thead>
+
+                <tr>
+
+                    <th>User</th>
+
+                    <th>Date</th>
+
+                    <th>Time</th>
+
+                    <th>Country</th>
+
+                    <th>Device</th>
+
+                    <th>Status</th>
+
+                    <th>Threat</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for row in recent_logins %}
+
+                <tr>
+
+                    <td>{{ row.Username }}</td>
+
+                    <td>{{ row.Login_Date }}</td>
+
+                    <td>{{ row.Login_Time }}</td>
+
+                    <td>{{ row.Country }}</td>
+
+                    <td>{{ row.Device }}</td>
+
+                    <td>
+
+                        {% if row.Login_Success == 1 %}
+
+                            <span class="badge bg-success">
+
+                                Success
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-danger">
+
+                                Failed
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        {% if row.Suspicious == 1 %}
+
+                            <span class="badge bg-danger">
+
+                                High Risk
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-success">
+
+                                Normal
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

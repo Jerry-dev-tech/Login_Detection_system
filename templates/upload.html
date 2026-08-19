@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Upload Login Logs</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="header">
+
+    <h1>Login Security Operations Center</h1>
+
+</div>
+
+<div class="section">
+
+    <h2>Upload Login Logs</h2>
+
+    <p style="margin-bottom:20px;color:#94a3b8;">
+        Upload a CSV file containing user login records.
+        The Random Forest model will analyze every login
+        and identify suspicious activities.
+    </p>
+
+    <form method="POST"
+          enctype="multipart/form-data">
+
+        <input
+            type="file"
+            name="file"
+            accept=".csv"
+            required>
+
+        <button type="submit">
+
+            Upload & Analyze
+
+        </button>
+
+    </form>
+
+</div>
+
+{% if results %}
+
+<div class="section">
+
+    <h2>Analysis Results</h2>
+
+    <table>
+
+        <tr>
+
+            <th>User</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Country</th>
+            <th>Device</th>
+            <th>Prediction</th>
+            <th>Risk</th>
+
+        </tr>
+
+        {% for row in results %}
+
+        <tr>
+
+            <td>{{ row.Username }}</td>
+
+            <td>{{ row.Login_Date }}</td>
+
+            <td>{{ row.Login_Time }}</td>
+
+            <td>{{ row.Country }}</td>
+
+            <td>{{ row.Device }}</td>
+
+            <td>
+
+                {% if row.Prediction == 1 %}
+
+                    <span style="color:red;font-weight:bold;">
+                        Suspicious
+                    </span>
+
+                {% else %}
+
+                    <span style="color:limegreen;font-weight:bold;">
+                        Normal
+                    </span>
+
+                {% endif %}
+
+            </td>
+
+            <td>
+
+                {{ row.Risk_Level }}
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+{% endif %}
+
+<div style="text-align:center;margin-top:20px;">
+
+    <a href="/">
+
+        <button>
+
+            Back to Dashboard
+
+        </button>
+
+    </a>
+
+</div>
+
+</body>
+
+</html>

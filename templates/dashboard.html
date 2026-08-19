@@ -1,0 +1,683 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Page Title -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+                Security Dashboard
+            </h2>
+
+            <p class="text-muted">
+                AI Powered Login Security Monitoring
+            </p>
+
+        </div>
+
+        <div>
+
+            <span class="badge bg-success p-2">
+
+                ● System Online
+
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- KPI CARDS -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-2 col-lg-4 col-md-6">
+
+            <div class="card shadow border-0 kpi-total">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Total Logins
+
+                    </small>
+
+                    <h2 class="mt-2">
+
+                        {{ total_logins }}
+
+                    </h2>
+
+                    <small class="text-success">
+
+                        Today
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-2 col-lg-4 col-md-6">
+
+            <div class="card shadow border-0 kpi-danger">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Suspicious
+
+                    </small>
+
+                    <h2 class="text-danger mt-2">
+
+                        {{ suspicious_logins }}
+
+                    </h2>
+
+                    <small class="text-danger">
+
+                        High Risk
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-2 col-lg-4 col-md-6">
+
+            <div class="card shadow border-0 kpi-warning">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Failed Logins
+
+                    </small>
+
+                    <h2 class="text-warning mt-2">
+
+                        {{ failed_logins }}
+
+                    </h2>
+
+                    <small>
+
+                        Authentication
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-2 col-lg-4 col-md-6">
+
+            <div class="card shadow border-0 kpi-success-rate">
+
+                <div class="card-body">
+
+                    <small>
+
+                        Success Rate
+
+                    </small>
+
+                    <h2 class="text-primary mt-2">
+
+                        {{ success_rate }}%
+
+                    </h2>
+
+                    <small>
+
+                        Overall
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-2 col-lg-4 col-md-6">
+
+            <div class="card shadow border-0 kpi-ai">
+
+                <div class="card-body">
+
+                    <small>
+
+                        AI Accuracy
+
+                    </small>
+
+                    <h2 class="text-success mt-2">
+
+                        {{ model_accuracy }}%
+
+                    </h2>
+
+                    <small>
+
+                        Random Forest
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-2 col-lg-4 col-md-6">
+
+            <div class="card shadow border-0 kpi-model">
+
+                <div class="card-body">
+
+                    <small>
+
+                        Model
+
+                    </small>
+
+                    <h2 class="text-info mt-2">
+
+                        RF
+
+                    </h2>
+
+                    <small>
+
+                        Active
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Login Activity -->
+
+    <div class="card shadow border-0 mb-4">
+
+        <div class="card-header bg-dark text-white">
+
+            Login Activity Timeline
+
+        </div>
+
+        <div class="card-body">
+
+            <div style="height:350px;">
+
+                <canvas id="hourChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Threat Row -->
+
+    <div class="row">
+
+        <!-- Threat Distribution -->
+
+        <div class="col-lg-4">
+
+            <div class="card shadow border-0 mb-4">
+
+                <div class="card-header bg-dark text-white">
+
+                    Threat Distribution
+
+                </div>
+
+                <div class="card-body">
+
+                    <div style="height:300px;">
+
+                        <canvas id="statusChart"></canvas>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+                <!-- Threat Status -->
+
+        <div class="col-lg-4">
+
+            <div class="card shadow border-0 mb-4">
+
+                <div class="card-header bg-dark text-white">
+
+                    Threat Status
+
+                </div>
+
+                <div class="card-body text-center">
+
+                    {% if suspicious_logins > 150 %}
+
+                        <h1 class="display-3 text-danger">
+
+                            HIGH
+
+                        </h1>
+
+                        <span class="badge bg-danger">
+
+                            Immediate Investigation Required
+
+                        </span>
+
+                    {% elif suspicious_logins > 50 %}
+
+                        <h1 class="display-3 text-warning">
+
+                            MEDIUM
+
+                        </h1>
+
+                        <span class="badge bg-warning text-dark">
+
+                            Monitor Activity
+
+                        </span>
+
+                    {% else %}
+
+                        <h1 class="display-3 text-success">
+
+                            LOW
+
+                        </h1>
+
+                        <span class="badge bg-success">
+
+                            System Secure
+
+                        </span>
+
+                    {% endif %}
+
+                    <hr>
+
+                    <h5 class="mt-3">
+
+                        Security Health
+
+                    </h5>
+
+                    <div class="progress mt-3">
+
+                        <div class="progress-bar bg-success"
+
+                             style="width:{{ success_rate }}%">
+
+                            {{ success_rate }}%
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Country Distribution -->
+
+        <div class="col-lg-4">
+
+            <div class="card shadow border-0 mb-4">
+
+                <div class="card-header bg-dark text-white">
+
+                    Country Distribution
+
+                </div>
+
+                <div class="card-body">
+
+                    <div style="height:300px;">
+
+                        <canvas id="countryChart"></canvas>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Map -->
+
+    <div class="card shadow border-0 mb-4">
+
+        <div class="card-header bg-dark text-white">
+
+            Login Geolocation Tracking
+
+        </div>
+
+        <div class="card-body p-0">
+
+            <iframe
+
+                src="/static/login_map.html"
+
+                width="100%"
+
+                height="450"
+
+                style="border:none;">
+
+            </iframe>
+
+        </div>
+
+    </div>
+
+    <!-- Prediction -->
+
+    <div class="card shadow border-0 mb-4">
+
+        <div class="card-header bg-dark text-white">
+
+            AI Login Risk Prediction
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                <div class="row">
+
+                    <div class="col-md-2">
+
+                        <input
+
+                            type="number"
+
+                            class="form-control"
+
+                            name="hour"
+
+                            placeholder="Hour"
+
+                            min="0"
+
+                            max="23"
+
+                            required>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <input
+
+                            type="number"
+
+                            class="form-control"
+
+                            name="login_success"
+
+                            placeholder="Success"
+
+                            required>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <input
+
+                            type="number"
+
+                            class="form-control"
+
+                            name="failed_attempts"
+
+                            placeholder="Failed"
+
+                            required>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <select
+
+                            class="form-select"
+
+                            name="country">
+
+                            <option>India</option>
+
+                            <option>USA</option>
+
+                            <option>UK</option>
+
+                            <option>Russia</option>
+
+                            <option>China</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <select
+
+                            class="form-select"
+
+                            name="device">
+
+                            <option>Laptop</option>
+
+                            <option>Desktop</option>
+
+                            <option>Mobile</option>
+
+                            <option>Unknown</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <button
+
+                            class="btn btn-primary w-100"
+
+                            type="submit">
+
+                            Analyze
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+            {% if prediction_result %}
+
+            <div class="alert alert-info mt-4">
+
+                {{ prediction_result }}
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+        <!-- FEATURE IMPORTANCE -->
+
+    <div class="card shadow border-0 mb-4">
+
+        <div class="card-header bg-dark text-white">
+
+            Random Forest Feature Importance
+
+        </div>
+
+        <div class="card-body text-center">
+
+            <img
+                src="{{ url_for('static', filename='feature_importance.png') }}"
+                class="img-fluid rounded"
+                style="max-height:450px;">
+
+        </div>
+
+    </div>
+
+    <!-- RECENT LOGIN TABLE -->
+
+    <div class="card shadow border-0 mb-4">
+
+        <div class="card-header bg-dark text-white">
+
+            Recent Login Activity
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-dark table-hover align-middle">
+
+                    <thead>
+
+                    <tr>
+
+                        <th>User</th>
+
+                        <th>Date</th>
+
+                        <th>Time</th>
+
+                        <th>Country</th>
+
+                        <th>Device</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for row in recent_logins %}
+
+                    <tr>
+
+                        <td>{{ row.Username }}</td>
+
+                        <td>{{ row.Login_Date }}</td>
+
+                        <td>{{ row.Login_Time }}</td>
+
+                        <td>{{ row.Country }}</td>
+
+                        <td>{{ row.Device }}</td>
+
+                        <td>
+
+                            {% if row.Login_Success == 1 %}
+
+                                <span class="badge bg-success">
+
+                                    Success
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-danger">
+
+                                    Failed
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+const hourLabels = {{ hour_labels | tojson }};
+const hourValues = {{ hour_values | tojson }};
+
+const countryLabels = {{ country_labels | tojson }};
+const countryValues = {{ country_values | tojson }};
+
+const normalCount = {{ normal_count }};
+const suspiciousCount = {{ suspicious_count }};
+
+</script>
+
+<script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+
+{% endblock %}

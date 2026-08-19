@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h2 class="text-info mb-4">
+        <i class="bi bi-gear-fill"></i>
+        System Settings
+    </h2>
+
+    <div class="row">
+
+        <!-- System Information -->
+
+        <div class="col-lg-6">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+
+                    System Information
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table">
+
+                        <tr>
+                            <th>Project Name</th>
+                            <td>Login Anomaly Detection System</td>
+                        </tr>
+
+                        <tr>
+                            <th>Version</th>
+                            <td>Version 1.0</td>
+                        </tr>
+
+                        <tr>
+                            <th>Machine Learning Model</th>
+                            <td>Random Forest Classifier</td>
+                        </tr>
+
+                        <tr>
+                            <th>Model Accuracy</th>
+                            <td>{{ model_accuracy }}%</td>
+                        </tr>
+
+                        <tr>
+                            <th>Backend</th>
+                            <td>Python Flask</td>
+                        </tr>
+
+                        <tr>
+                            <th>Database</th>
+                            <td>SQLite</td>
+                        </tr>
+
+                        <tr>
+                            <th>Developer</th>
+                            <td>Jerlin G George</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Admin Information -->
+
+        <div class="col-lg-6">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-success text-white">
+
+                    Administrator
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table">
+
+                        <tr>
+                            <th>Username</th>
+                            <td>Admin</td>
+                        </tr>
+
+                        <tr>
+                            <th>Role</th>
+                            <td>System Administrator</td>
+                        </tr>
+
+                        <tr>
+                            <th>Status</th>
+                            <td>
+                                <span class="badge bg-success">
+                                    Online
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Last Login</th>
+                            <td>{{ current_time }}</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <div class="row">
+
+        <!-- System Status -->
+
+        <div class="col-lg-4">
+
+            <div class="card shadow text-center">
+
+                <div class="card-body">
+
+                    <h5>Machine Learning</h5>
+
+                    <h2 class="status-green">
+                        <i class="bi bi-check-circle-fill"></i>
+                        Active
+                    </h2>
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card shadow text-center">
+
+                <div class="card-body">
+
+                    <h5>Database</h5>
+
+                    <h2 class="status-green">
+                        <i class="bi bi-database-check"></i>
+                        Connected
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card shadow text-center">
+
+                <div class="card-body">
+
+                    <h5>Security Status</h5>
+
+                    <h2 class="status-green">
+                        <i class="bi bi-shield-check"></i>
+                        Protected
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <div class="card shadow">
+
+        <div class="card-header bg-dark text-white">
+
+            Future Enhancements
+
+        </div>
+
+        <div class="card-body">
+
+            <ul>
+
+                <li>Real-Time Login Monitoring</li>
+
+                <li>Email Alert Notifications</li>
+
+                <li>SMS Security Alerts</li>
+
+                <li>User Behaviour Analytics</li>
+
+                <li>Automatic IP Blocking</li>
+
+                <li>AI Threat Intelligence</li>
+
+                <li>Cloud Deployment</li>
+
+                <li>Multi-Factor Authentication</li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

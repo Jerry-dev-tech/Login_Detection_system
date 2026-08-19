@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Login</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body class="login-body">
+
+<div class="login-container">
+
+    <div class="login-card">
+
+        <div class="login-header">
+
+            <h1>Login Anomaly Detection</h1>
+
+            <p>AI Powered Security Monitoring System</p>
+
+        </div>
+
+        <form method="POST">
+
+            <div class="input-group">
+
+                <label>Username</label>
+
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Enter Username"
+                    required>
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Password</label>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter Password"
+                    required>
+
+            </div>
+
+            <button class="login-btn" type="submit">
+
+                Login
+
+            </button>
+
+        </form>
+
+        {% if error %}
+
+        <div class="login-error">
+
+            {{ error }}
+
+        </div>
+
+        {% endif %}
+
+        <div class="login-footer">
+
+            <p>Machine Learning Based Login Anomaly Detection</p>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
